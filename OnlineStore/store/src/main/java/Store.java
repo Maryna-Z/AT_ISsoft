@@ -15,7 +15,7 @@ public class Store {
     public ArrayList<Product> checkCategory(Category category){
         ArrayList<Product> clonedProducts = products.stream().map(Product::new).collect(toCollection(ArrayList::new));
         for (int i = 0; i < clonedProducts.size(); i++){
-            if (clonedProducts.get(i).getCategory() != category) {
+            if (clonedProducts.get(i).getCategory().getName() != category.getName()) {
                 clonedProducts.remove(i);
                 i--;
             }

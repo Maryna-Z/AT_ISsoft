@@ -46,6 +46,8 @@ public class Product {
             newProduct.quantity = quantity;
             return this;
         }
+
+        public Product build(){return newProduct;}
     }
 
     public String getName() {
@@ -87,12 +89,12 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "name='" + name + '\'' +
-                ", rate=" + rating +
-                ", price=" + price +
-                ", category=" + category +
-                ", quantity=" + quantity +
-                '}';
+                "name: " + name + '\'' +
+                ", rate: " + rating +
+                ", price: " + price +
+                ", category: " + category.getName() +
+                ", quantity: " + quantity +
+                "}";
     }
 
 }
