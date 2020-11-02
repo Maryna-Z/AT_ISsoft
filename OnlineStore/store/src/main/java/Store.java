@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 import static java.util.stream.Collectors.toCollection;
 
 public class Store {
@@ -30,6 +34,32 @@ public class Store {
         return clonedProducts;
     }
 
-    
+   public ArrayList<Product> sortByPriceAscending(){
+        ProductPriceComparator priceComparator = new ProductPriceComparator();
+        ArrayList<Product> sortedByPrice = (ArrayList<Product>) products.stream()
+                .sorted(priceComparator).collect(Collectors.toList());
+        return sortedByPrice;
+    }
+
+    public ArrayList<Product> sortByPriceDescending(){
+        ProductPriceComparator priceComparator = new ProductPriceComparator();
+        ArrayList<Product> sortedByPrice = (ArrayList<Product>) products.stream()
+                .distinct().sorted(priceComparator).collect(Collectors.toList());
+        return sortedByPrice;
+    }
+
+    public ArrayList<Product> sortByRatingAscending(){
+        ProductRatingComparator ratingComparator = new ProductRatingComparator();
+        ArrayList<Product> sortedByPrice = (ArrayList<Product>) products.stream()
+                .sorted(ratingComparator).collect(Collectors.toList());
+        return sortedByPrice;
+    }
+
+    public ArrayList<Product> sortByRatingDescending(){
+        ProductRatingComparator ratingComparator = new ProductRatingComparator();
+        ArrayList<Product> sortedByPrice = (ArrayList<Product>) products.stream()
+                .distinct().sorted(ratingComparator).collect(Collectors.toList());
+        return sortedByPrice;
+    }
 
 }
