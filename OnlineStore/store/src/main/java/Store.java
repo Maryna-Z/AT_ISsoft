@@ -1,3 +1,4 @@
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,7 +16,22 @@ public class Store {
     public ArrayList<Product> checkCategory(Category category){
         ArrayList<Product> clonedProducts = products.stream().map(Product::new).collect(toCollection(ArrayList::new));
         for (int i = 0; i < clonedProducts.size(); i++){
-            if (clonedProducts.get(i).getCategory().getName() != category.getName()) {
+            String clonedCategoryName = null;
+            String paramCategoryName = null;
+            Category clonedCategory = clonedProducts.get(i).getCategory();
+            Category paramCategory = category;
+            try {
+                Field clonedFieldCategoryName = clonedCategory.getClass().getDeclaredField("categoryName");
+                clonedFieldCategoryName.setAccessible(true);
+                clonedCategoryName = (String) clonedFieldCategoryName.get(clonedCategory);
+
+                Field paramFieldCategoryName = paramCategory.getClass().getDeclaredField("categoryName");
+                paramFieldCategoryName.setAccessible(true);
+                paramCategoryName = (String) paramFieldCategoryName.get(paramCategory);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            if (clonedCategoryName != paramCategoryName ) {
                 clonedProducts.remove(i);
                 i--;
             }
@@ -26,7 +42,22 @@ public class Store {
     public ArrayList<Product> uncheckCategory(Category category){
         ArrayList<Product> clonedProducts = products.stream().map(Product::new).collect(toCollection(ArrayList::new));
         for (int i = 0; i < clonedProducts.size(); i++){
-            if (clonedProducts.get(i).getCategory() == category) {
+            String clonedCategoryName = null;
+            String paramCategoryName = null;
+            Category clonedCategory = clonedProducts.get(i).getCategory();
+            Category paramCategory = category;
+            try {
+                Field clonedFieldCategoryName = clonedCategory.getClass().getDeclaredField("categoryName");
+                clonedFieldCategoryName.setAccessible(true);
+                clonedCategoryName = (String) clonedFieldCategoryName.get(clonedCategory);
+
+                Field paramFieldCategoryName = paramCategory.getClass().getDeclaredField("categoryName");
+                paramFieldCategoryName.setAccessible(true);
+                paramCategoryName = (String) paramFieldCategoryName.get(paramCategory);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            if (clonedCategoryName == paramCategoryName ) {
                 clonedProducts.remove(i);
                 i--;
             }

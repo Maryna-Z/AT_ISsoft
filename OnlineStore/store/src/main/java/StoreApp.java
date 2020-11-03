@@ -1,3 +1,4 @@
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class StoreApp {
@@ -20,11 +21,6 @@ public class StoreApp {
         for (int i = 0; i < sortingByPriceDesc.size(); i++) {
             System.out.println(sortingByPriceDesc.get(i));
         }
-
-        System.out.println("\n Toys category ********************************\n");
-        ArrayList<Product> sectCategory = store.checkCategory(new Category("Toys"));
-        for (int i = 0; i < sectCategory.size(); i++) {
-            System.out.println(sectCategory.get(i));
-        }
+        
     }
 }

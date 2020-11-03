@@ -1,3 +1,4 @@
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class Product {
@@ -88,11 +89,20 @@ public class Product {
 
     @Override
     public String toString() {
+        Category categoryC = new Category();
+        String categoryName = null;
+        try {
+            Field field = categoryC.getClass().getDeclaredField("categoryName");
+            field.setAccessible(true);
+            categoryName = (String) field.get(categoryC);
+        } catch (NoSuchFieldException |IllegalAccessException e) {
+            e.printStackTrace();
+        }
         return "Product{" +
                 "name: " + name + '\'' +
                 ", rate: " + rating +
                 ", price: " + price +
-                ", category: " + category.getName() +
+                ", category: " + categoryName +
                 ", quantity: " + quantity +
                 "}";
     }
