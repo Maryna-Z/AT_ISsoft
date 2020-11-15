@@ -21,6 +21,6 @@ public class StoreApp {
         for (int i = 0; i < sortingByPriceDesc.size(); i++) {
             System.out.println(sortingByPriceDesc.get(i));
         }
-        
+
     }
 }

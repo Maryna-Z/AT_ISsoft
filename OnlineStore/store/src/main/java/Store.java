@@ -13,6 +13,20 @@ public class Store {
         this.products = products;
     }
 
+    public ArrayList<Product> sortByNameAsc(){
+        ProductNameComparator nameComparator = new ProductNameComparator();
+        ArrayList<Product> sortedByName = (ArrayList<Product>) products.stream()
+                .sorted(nameComparator).collect(Collectors.toList());
+        return sortedByName;
+    }
+
+    public ArrayList<Product> sortByNameDec(){
+        ProductNameComparator nameComparator = new ProductNameComparator();
+        ArrayList<Product> sortedByName = (ArrayList<Product>) products.stream().distinct()
+                .sorted(nameComparator).collect(Collectors.toList());
+        return sortedByName;
+    }
+
     public ArrayList<Product> checkCategory(Category category){
         ArrayList<Product> clonedProducts = products.stream().map(Product::new).collect(toCollection(ArrayList::new));
         for (int i = 0; i < clonedProducts.size(); i++){

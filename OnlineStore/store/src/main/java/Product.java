@@ -100,7 +100,7 @@ public class Product {
         }
         return "Product{" +
                 "name: " + name + '\'' +
-                ", rate: " + rating +
+                ", rating: " + rating +
                 ", price: " + price +
                 ", category: " + categoryName +
                 ", quantity: " + quantity +
