@@ -1,21 +1,35 @@
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class SAXParserM {
+public class SAXParser {
     private static ArrayList<Product> products = new ArrayList<>();
 
-    public SAXParserM(ArrayList<Product> products){
+    public SAXParser(ArrayList<Product> products){
         this.products = products;
     }
 
-    public void SAXparse(String path) throws ParserConfigurationException, SAXException {
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        SAXParser parser = factory.newSAXParser();
-    }
+    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+        RandomStorePopulator populator = new RandomStorePopulator();
+        ArrayList<Product> products = populator.populateStore();
+
+        Store store = new Store(products);
+        ArrayList<Product> sorting = new ArrayList<>();
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new File("c:\\Users\\user\\Java\\AT_ISsoft\\AT_ISsoft\\OnlineStore\\store\\src\\main\\resources\\sort.xml"));
+        Node sortElement = document.getElementsByTagName("sort").item(0);
+        NodeList sortConditions = sortElement.getChildNodes();
 
 
         for (int i = 0; i < sortConditions.getLength(); i++){
@@ -42,7 +56,7 @@ public class SAXParserM {
                         sorting = store.sortByRatingAscending();
                     } else if (condition.getNodeValue().toLowerCase() == "desc"){
                         sorting = store.sortByRatingDescending();
-                        
+
                     }
                     break;
             }

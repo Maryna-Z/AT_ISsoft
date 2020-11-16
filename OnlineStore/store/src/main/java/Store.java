@@ -2,6 +2,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toCollection;
@@ -107,4 +108,41 @@ public class Store {
         return sortedByPrice;
     }
 
+    public ArrayList<Product>multipleSort(Map<String, String> map){
+        ArrayList<Product> sortedListOfProducts = null;
+        for(Map.Entry<String, String> item : map.entrySet()){
+            String key = item.getKey().trim().toLowerCase();
+            String value = item.getValue().trim().toLowerCase();
+            switch (key){
+                case "name":
+                    if (value.equals("asc")) {
+                        sortedListOfProducts = sortByNameAsc();
+                        System.out.println("case name value asc");
+                    }else if (value.equals("desc")){
+                        sortedListOfProducts = sortByNameDec();
+                        System.out.println("case name value desc");
+                    }
+                    break;
+                case "price":
+                    if (value.equals("asc")) {
+                        sortedListOfProducts = sortByPriceAscending();
+                        System.out.println("case price value asc");
+                    }else if (value.equals("desc")){
+                        sortedListOfProducts = sortByPriceDescending();
+                        System.out.println("case price value desc");
+                    }
+                    break;
+                case "rating":
+                    if (value.equals("asc")) {
+                        sortedListOfProducts = sortByRatingAscending();
+                        System.out.println("case rating value asc");
+                    }else if (value.equals("desc")){
+                        sortedListOfProducts = sortByRatingDescending();
+                        System.out.println("case rating value desc");
+                    }
+                    break;
+            }
+        }
+        return sortedListOfProducts;
+    }
 }
