@@ -108,6 +108,36 @@ public class Store {
         return sortedByPrice;
     }
 
+    public ArrayList<Product>sortProduct(Map<String, String> map, String sortingKey){
+        ArrayList<Product> sortedListOfProducts = null;
+            String value = map.get(sortingKey).trim().toLowerCase();
+            switch (sortingKey){
+                case "name":
+                    if (value.equals("asc")) {
+                        sortedListOfProducts = sortByNameAsc();
+                    }else if (value.equals("desc")){
+                        sortedListOfProducts = sortByNameDec();
+                    }
+                    break;
+                case "price":
+                    if (value.equals("asc")) {
+                        sortedListOfProducts = sortByPriceAscending();
+                    }else if (value.equals("desc")){
+                        sortedListOfProducts = sortByPriceDescending();
+                    }
+                    break;
+                case "rating":
+                    if (value.equals("asc")) {
+                        sortedListOfProducts = sortByRatingAscending();
+                    }else if (value.equals("desc")){
+                        sortedListOfProducts = sortByRatingDescending();
+                    }
+                    break;
+            }
+
+        return sortedListOfProducts;
+    }
+
     public ArrayList<Product>multipleSort(Map<String, String> map){
         ArrayList<Product> sortedListOfProducts = null;
         for(Map.Entry<String, String> item : map.entrySet()){
@@ -117,28 +147,22 @@ public class Store {
                 case "name":
                     if (value.equals("asc")) {
                         sortedListOfProducts = sortByNameAsc();
-                        System.out.println("case name value asc");
                     }else if (value.equals("desc")){
                         sortedListOfProducts = sortByNameDec();
-                        System.out.println("case name value desc");
                     }
                     break;
                 case "price":
                     if (value.equals("asc")) {
                         sortedListOfProducts = sortByPriceAscending();
-                        System.out.println("case price value asc");
                     }else if (value.equals("desc")){
                         sortedListOfProducts = sortByPriceDescending();
-                        System.out.println("case price value desc");
                     }
                     break;
                 case "rating":
                     if (value.equals("asc")) {
                         sortedListOfProducts = sortByRatingAscending();
-                        System.out.println("case rating value asc");
                     }else if (value.equals("desc")){
                         sortedListOfProducts = sortByRatingDescending();
-                        System.out.println("case rating value desc");
                     }
                     break;
             }
