@@ -3,6 +3,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -13,9 +14,12 @@ public class StoreApp {
         for (int i = 0; i < products.size(); i++) {
             System.out.println(products.get(i));
         }
-        String path = "c:\\Users\\user\\Java\\AT_ISsoft\\AT_ISsoft\\OnlineStore\\store\\src\\main\\resources\\sort.xml";
+
+        URL resource = StoreApp.class.getResource("sort.xml");
+        //String path = "c:\\Users\\user\\Java\\AT_ISsoft\\AT_ISsoft\\OnlineStore\\store\\src\\main\\resources\\sort.xml";
         DOMExecuter executer = new DOMExecuter();
-        Map<String, String> sortCondition = executer.XMLreader(path);
+        Map<String, String> sortCondition = executer.XMLreader(resource.getPath());
+        //Map<String, String> sortCondition = executer.XMLreader(path);
 
         Store store = new Store(products);
         store.multipleSort(sortCondition);
@@ -26,6 +30,8 @@ public class StoreApp {
         for (int i = 0; i < 5; i++) {
             System.out.println(newProduct.get(i));
         }
+        Commands commands = new Commands();
+        commands.quit("quit".trim().toLowerCase());
         //StoreApp app = new StoreApp();
         //app.multipleSort(sortCondition);
         //System.out.println(sortCondition);

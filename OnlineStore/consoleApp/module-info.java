@@ -1,3 +1,0 @@
-module consoleApp {
-    requires store;
-}

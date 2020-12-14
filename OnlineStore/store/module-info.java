@@ -1,3 +1,0 @@
-module store {
-    exports consoleApp;
-}
