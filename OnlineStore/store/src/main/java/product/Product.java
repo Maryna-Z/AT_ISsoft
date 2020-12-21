@@ -1,3 +1,7 @@
+package product;
+
+import categories.Category;
+
 import java.lang.reflect.Field;
 import java.util.Objects;
 
@@ -98,7 +102,7 @@ public class Product {
         } catch (NoSuchFieldException |IllegalAccessException e) {
             e.printStackTrace();
         }
-        return "Product{" +
+        return "product.Product{" +
                 "name: " + name + '\'' +
                 ", rating: " + rating +
                 ", price: " + price +

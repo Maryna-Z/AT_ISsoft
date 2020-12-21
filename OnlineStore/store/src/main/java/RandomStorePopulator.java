@@ -1,4 +1,6 @@
+import categories.Category;
 import com.github.javafaker.Faker;
+import product.Product;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ public class RandomStorePopulator {
             Product product = new Product.Builder()
                     .withName(faker.commerce().productName())
                     .withCategory(myCategory)
-                    //.withCategory(new Category(faker.commerce().department()))
+                    //.withCategory(new categorys.Category(faker.commerce().department()))
                     .withPrice(Double.valueOf(faker.commerce().price()))
                     .withQuantity(faker.number().numberBetween(0,30))
                     .withRating(faker.number().numberBetween(0, 11))

@@ -1,172 +1,57 @@
-import java.lang.reflect.Field;
+import product.Product;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toCollection;
 
 public class Store {
 
-    ArrayList<Product> products;
+    List<Product> products;
+
     public Store(ArrayList<Product> products){
         this.products = products;
     }
 
-    public ArrayList<Product> sortByNameAsc(){
-        ProductNameComparator nameComparator = new ProductNameComparator();
-        ArrayList<Product> sortedByName = (ArrayList<Product>) products.stream()
-                .sorted(nameComparator).collect(Collectors.toList());
-        return sortedByName;
-    }
-
-    public ArrayList<Product> sortByNameDec(){
-        ProductNameComparator nameComparator = new ProductNameComparator();
-        ArrayList<Product> sortedByName = (ArrayList<Product>) products.stream().distinct()
-                .sorted(nameComparator).collect(Collectors.toList());
-        return sortedByName;
-    }
-
-    public ArrayList<Product> checkCategory(Category category){
-        ArrayList<Product> clonedProducts = products.stream().map(Product::new).collect(toCollection(ArrayList::new));
-        for (int i = 0; i < clonedProducts.size(); i++){
-            String clonedCategoryName = null;
-            String paramCategoryName = null;
-            Category clonedCategory = clonedProducts.get(i).getCategory();
-            Category paramCategory = category;
-            try {
-                Field clonedFieldCategoryName = clonedCategory.getClass().getDeclaredField("categoryName");
-                clonedFieldCategoryName.setAccessible(true);
-                clonedCategoryName = (String) clonedFieldCategoryName.get(clonedCategory);
-
-                Field paramFieldCategoryName = paramCategory.getClass().getDeclaredField("categoryName");
-                paramFieldCategoryName.setAccessible(true);
-                paramCategoryName = (String) paramFieldCategoryName.get(paramCategory);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            if (clonedCategoryName != paramCategoryName ) {
-                clonedProducts.remove(i);
-                i--;
-            }
+    public List<Product> newSortProduct(String categoryName, String fieldName, String sortOrder){
+        List<Product> sortedList =  new ArrayList<>();
+        switch (fieldName.toLowerCase()) {
+            case "name":
+                if (sortOrder.toLowerCase().equals("asc")) {
+                    sortedList = getProductByCategory(categoryName).stream().sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList());
+                } else if (sortOrder.toLowerCase().equals("desc")) {
+                    Comparator<Product> productNameComparatorDesc = Comparator.comparing(Product::getName, (s1, s2) -> {
+                        return s2.compareTo(s1);
+                    });
+                    sortedList = getProductByCategory(categoryName).stream().sorted(productNameComparatorDesc).collect(Collectors.toList());
+                }
+                break;
+            case "price":
+                if (sortOrder.toLowerCase().equals("asc")) {
+                    sortedList = getProductByCategory(categoryName).stream().sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toList());
+                } else if (sortOrder.toLowerCase().equals("desc")) {
+                    Comparator<Product> productPriceComparatorDesc = Comparator.comparing(Product::getPrice, (s1, s2) -> {
+                        return s2.compareTo(s1);
+                    });
+                    sortedList = getProductByCategory(categoryName).stream().sorted(productPriceComparatorDesc).collect(Collectors.toList());
+                }
+                break;
+            case "rating":
+                if (sortOrder.toLowerCase().equals("asc")) {
+                    sortedList = getProductByCategory(categoryName).stream().sorted(Comparator.comparing(Product::getRating)).collect(Collectors.toList());
+                } else if (sortOrder.toLowerCase().equals("desc")) {
+                    Comparator<Product> productRatingComparatorDesc = Comparator.comparing(Product::getRating, (s1, s2) -> {
+                        return s2.compareTo(s1);
+                    });
+                    sortedList = getProductByCategory(categoryName).stream().sorted(productRatingComparatorDesc).collect(Collectors.toList());
+                }
+                break;
         }
-        return clonedProducts;
+        return sortedList;
     }
 
-    public ArrayList<Product> uncheckCategory(Category category){
-        ArrayList<Product> clonedProducts = products.stream().map(Product::new).collect(toCollection(ArrayList::new));
-        for (int i = 0; i < clonedProducts.size(); i++){
-            String clonedCategoryName = null;
-            String paramCategoryName = null;
-            Category clonedCategory = clonedProducts.get(i).getCategory();
-            Category paramCategory = category;
-            try {
-                Field clonedFieldCategoryName = clonedCategory.getClass().getDeclaredField("categoryName");
-                clonedFieldCategoryName.setAccessible(true);
-                clonedCategoryName = (String) clonedFieldCategoryName.get(clonedCategory);
-
-                Field paramFieldCategoryName = paramCategory.getClass().getDeclaredField("categoryName");
-                paramFieldCategoryName.setAccessible(true);
-                paramCategoryName = (String) paramFieldCategoryName.get(paramCategory);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            if (clonedCategoryName == paramCategoryName ) {
-                clonedProducts.remove(i);
-                i--;
-            }
-        }
-        return clonedProducts;
-    }
-
-   public ArrayList<Product> sortByPriceAscending(){
-        ProductPriceComparator priceComparator = new ProductPriceComparator();
-        ArrayList<Product> sortedByPrice = (ArrayList<Product>) products.stream()
-                .sorted(priceComparator).collect(Collectors.toList());
-        return sortedByPrice;
-    }
-
-    public ArrayList<Product> sortByPriceDescending(){
-        ProductPriceComparator priceComparator = new ProductPriceComparator();
-        ArrayList<Product> sortedByPrice = (ArrayList<Product>) products.stream()
-                .distinct().sorted(priceComparator).collect(Collectors.toList());
-        return sortedByPrice;
-    }
-
-    public ArrayList<Product> sortByRatingAscending(){
-        ProductRatingComparator ratingComparator = new ProductRatingComparator();
-        ArrayList<Product> sortedByPrice = (ArrayList<Product>) products.stream()
-                .sorted(ratingComparator).collect(Collectors.toList());
-        return sortedByPrice;
-    }
-
-    public ArrayList<Product> sortByRatingDescending(){
-        ProductRatingComparator ratingComparator = new ProductRatingComparator();
-        ArrayList<Product> sortedByPrice = (ArrayList<Product>) products.stream()
-                .distinct().sorted(ratingComparator).collect(Collectors.toList());
-        return sortedByPrice;
-    }
-
-    public ArrayList<Product>sortProduct(Map<String, String> map, String sortingKey){
-        ArrayList<Product> sortedListOfProducts = null;
-            String value = map.get(sortingKey).trim().toLowerCase();
-            switch (sortingKey){
-                case "name":
-                    if (value.equals("asc")) {
-                        sortedListOfProducts = sortByNameAsc();
-                    }else if (value.equals("desc")){
-                        sortedListOfProducts = sortByNameDec();
-                    }
-                    break;
-                case "price":
-                    if (value.equals("asc")) {
-                        sortedListOfProducts = sortByPriceAscending();
-                    }else if (value.equals("desc")){
-                        sortedListOfProducts = sortByPriceDescending();
-                    }
-                    break;
-                case "rating":
-                    if (value.equals("asc")) {
-                        sortedListOfProducts = sortByRatingAscending();
-                    }else if (value.equals("desc")){
-                        sortedListOfProducts = sortByRatingDescending();
-                    }
-                    break;
-            }
-
-        return sortedListOfProducts;
-    }
-
-    public ArrayList<Product>multipleSort(Map<String, String> map){
-        ArrayList<Product> sortedListOfProducts = null;
-        for(Map.Entry<String, String> item : map.entrySet()){
-            String key = item.getKey().trim().toLowerCase();
-            String value = item.getValue().trim().toLowerCase();
-            switch (key){
-                case "name":
-                    if (value.equals("asc")) {
-                        sortedListOfProducts = sortByNameAsc();
-                    }else if (value.equals("desc")){
-                        sortedListOfProducts = sortByNameDec();
-                    }
-                    break;
-                case "price":
-                    if (value.equals("asc")) {
-                        sortedListOfProducts = sortByPriceAscending();
-                    }else if (value.equals("desc")){
-                        sortedListOfProducts = sortByPriceDescending();
-                    }
-                    break;
-                case "rating":
-                    if (value.equals("asc")) {
-                        sortedListOfProducts = sortByRatingAscending();
-                    }else if (value.equals("desc")){
-                        sortedListOfProducts = sortByRatingDescending();
-                    }
-                    break;
-            }
-        }
-        return sortedListOfProducts;
+    public List<Product> getProductByCategory(String categoryName){
+        List<Product> productsByCategory = products.stream().filter(p -> categoryName.equals(p.getCategory().getName()))
+                .collect(Collectors.toList());
+        return productsByCategory;
     }
 }

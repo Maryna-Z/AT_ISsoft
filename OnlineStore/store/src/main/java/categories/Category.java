@@ -1,3 +1,5 @@
+package categories;
+
 public class Category {
     private String categoryName;
 
@@ -7,9 +9,9 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    /*public String getName() {
+    public String getName() {
         return categoryName;
-    }*/
+    }
 
     public void setName(String categoryName) {
         this.categoryName = categoryName;

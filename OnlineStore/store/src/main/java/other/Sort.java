@@ -1,3 +1,5 @@
+package other;
+
 public class Sort {
     private String name, price, rating;
     public Sort(){};
