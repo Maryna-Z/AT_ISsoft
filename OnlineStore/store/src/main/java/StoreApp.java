@@ -31,21 +31,5 @@ public class StoreApp {
         for (int i = 0; i < 5; i++) {
             System.out.println(products.get(i));
         }
-
-        /*Store store = new Store(products);
-        store.multipleSort(sortCondition);
-        ArrayList<Product> newProduct = store.sortProduct(sortCondition, "price");
-
-
-        System.out.println("\n sorting ********************************\n");
-        for (int i = 0; i < 5; i++) {
-            System.out.println(newProduct.get(i));
-        }*/
-        Commands commands = new Commands();
-        commands.quit("quit".trim().toLowerCase());
-        //StoreApp app = new StoreApp();
-        //app.multipleSort(sortCondition);
-        //System.out.println(sortCondition);
-
     }
 }
