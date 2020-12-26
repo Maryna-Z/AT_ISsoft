@@ -1,22 +1,16 @@
-import org.xml.sax.SAXException;
 import product.ChainComparator;
 import product.ListProductComparators;
 import product.Product;
 import utility.DOMExecuter;
 
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StoreApp {
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         RandomStorePopulator populator = new RandomStorePopulator();
-        ArrayList<Product> products = populator.populateStore();
+        List<Product> products = populator.populateStore();
         for (int i = 0; i < products.size(); i++) {
             System.out.println(products.get(i));
         }
@@ -32,4 +26,14 @@ public class StoreApp {
             System.out.println(products.get(i));
         }
     }
+
+    /*public String getProductNameByCategory(String categoryName){
+        String productName;
+        Faker faker = new Faker();
+        switch (categoryName.toLowerCase()){
+            case "milk":
+                productName = faker.food().ingredient();
+        }
+    }*/
+
 }

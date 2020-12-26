@@ -50,7 +50,7 @@ public class Store {
     }
 
     public List<Product> getProductByCategory(String categoryName){
-        List<Product> productsByCategory = products.stream().filter(p -> categoryName.equals(p.getCategory().getName()))
+        List<Product> productsByCategory = products.stream().filter(p -> categoryName.equals(p.getCategory().getName1()))
                 .collect(Collectors.toList());
         return productsByCategory;
     }

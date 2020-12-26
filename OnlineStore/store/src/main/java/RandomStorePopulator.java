@@ -1,36 +1,66 @@
-import categories.Category;
 import com.github.javafaker.Faker;
+import org.reflections.Reflections;
+import product.Category;
 import product.Product;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class RandomStorePopulator {
 
-    public ArrayList<Product> populateStore(){
-        Faker faker = new Faker();
-        ArrayList<Product> products = new ArrayList<>();
-        for (int i = 0; i < 21; i++){
+    List<String> nameOfCategoryClasses = new ArrayList<>();
+    Reflections reflections = new Reflections("categories");
+    Set<Class<? extends Category>> subClassesForCategory = reflections.getSubTypesOf(Category.class);
+    Faker faker = new Faker();
+    int le = subClassesForCategory.size();
 
-            Category myCategory = null;
-            try{
-                Class categoryClass = Class.forName(Category.class.getName());
-                Class[] params = {String.class};
-                myCategory = (Category) categoryClass.getConstructor(params).newInstance(faker.commerce().department());
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+
+    public List<String> getNameOfCategoryClasses(){
+        for (int j = 0; j < le; j++){
+            nameOfCategoryClasses.add(subClassesForCategory.parallelStream().collect(Collectors.toList()).get(j).getName());
+        }
+        return nameOfCategoryClasses;
+    }
+
+    public List<Product> populateStore(){
+        List<Product> products = new ArrayList<>();
+        String productName = "";
+        String className = "";
+        for (int i = 0; i < 21; i++){
+            int randomInt = (int)(Math.random() * le);
+            className = getNameOfCategoryClasses().get(randomInt);
+            productName = getProductNameByCategoryName(className);
+            Product product = null;
+            try {
+                product = new Product.Builder()
+                        .withName(productName)
+                        .withCategory((Category) Class.forName(getNameOfCategoryClasses().get(randomInt)).newInstance())
+                        .withPrice(Double.valueOf(faker.commerce().price()))
+                        .withQuantity(faker.number().numberBetween(0,30))
+                        .withRating(faker.number().numberBetween(0, 11))
+                        .build();
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            Product product = new Product.Builder()
-                    .withName(faker.commerce().productName())
-                    .withCategory(myCategory)
-                    //.withCategory(new categorys.Category(faker.commerce().department()))
-                    .withPrice(Double.valueOf(faker.commerce().price()))
-                    .withQuantity(faker.number().numberBetween(0,30))
-                    .withRating(faker.number().numberBetween(0, 11))
-                    .build();
             products.add(product);
         }
         return products;
     }
 
+    public String getProductNameByCategoryName(String categoryNameField){
+        String name = categoryNameField.trim().toLowerCase();
+        String productName = "";
+        if (name.equals("categories.fruit")){
+            productName = faker.food().fruit();
+        } else if (name.equals("categories.spice")){
+            productName = faker.food().spice();
+        } else if (name.equals("categories.vegetable")){
+            productName = faker.food().vegetable();
+        }
+        return productName;
+    }
 }

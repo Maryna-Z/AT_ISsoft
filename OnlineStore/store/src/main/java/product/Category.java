@@ -1,15 +1,11 @@
-package categories;
+package product;
 
-public class Category {
+public abstract class Category {
     private String categoryName;
 
     public Category(){}
 
-    public Category(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public String getName() {
+    public String getName1() {
         return categoryName;
     }
 
