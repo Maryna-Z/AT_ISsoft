@@ -2,10 +2,7 @@ import com.github.javafaker.Faker;
 import org.reflections.Reflections;
 import product.Category;
 import product.Product;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,37 +14,44 @@ public class RandomStorePopulator {
     Set<Class<? extends Category>> subClassesForCategory = reflections.getSubTypesOf(Category.class);
     Faker faker = new Faker();
     int le = subClassesForCategory.size();
+    Store store = new Store();
 
 
     public List<String> getNameOfCategoryClasses(){
         for (int j = 0; j < le; j++){
-            nameOfCategoryClasses.add(subClassesForCategory.parallelStream().collect(Collectors.toList()).get(j).getName());
+            nameOfCategoryClasses.add(subClassesForCategory.parallelStream().collect(Collectors.toList())
+                    .get(j).getName());
         }
         return nameOfCategoryClasses;
     }
 
-    public List<Product> populateStore(){
+    public List<Product> populateStore(int quantity){
         List<Product> products = new ArrayList<>();
-        String productName = "";
-        String className = "";
-        for (int i = 0; i < 21; i++){
-            int randomInt = (int)(Math.random() * le);
-            className = getNameOfCategoryClasses().get(randomInt);
-            productName = getProductNameByCategoryName(className);
-            Product product = null;
-            try {
-                product = new Product.Builder()
-                        .withName(productName)
-                        .withCategory((Category) Class.forName(getNameOfCategoryClasses().get(randomInt)).newInstance())
-                        .withPrice(Double.valueOf(faker.commerce().price()))
-                        .withQuantity(faker.number().numberBetween(0,30))
-                        .withRating(faker.number().numberBetween(0, 11))
-                        .build();
-            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-                e.printStackTrace();
+        /*if (quantity > store.getCapacity()){
+            System.out.println("The store capacity is less than quantity of products, which you try to generate");
+        } else {*/
+            String productName = "";
+            String className = "";
+            for (int i = 0; i < quantity; i++) {
+                int randomInt = (int) (Math.random() * le);
+                className = getNameOfCategoryClasses().get(randomInt);
+                productName = getProductNameByCategoryName(className);
+                Product product = null;
+                try {
+                    product = new Product.Builder()
+                            .withName(productName)
+                            .withCategory((Category) Class.forName(getNameOfCategoryClasses().get(randomInt))
+                                    .newInstance())
+                            .withPrice(Double.valueOf(faker.commerce().price()))
+                            .withQuantity(faker.number().numberBetween(0, 30))
+                            .withRating(faker.number().numberBetween(0, 11))
+                            .build();
+                } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                products.add(product);
             }
-            products.add(product);
-        }
+        /*}*/
         return products;
     }
 
