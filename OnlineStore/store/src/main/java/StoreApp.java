@@ -14,7 +14,7 @@ public class StoreApp {
 
         Store store = new Store(3000);
         RandomStorePopulator populator = new RandomStorePopulator();
-        List<Product> products = populator.populateStore(30);
+        List<Product> products = populator.populateStore(90);
         for (int i = 0; i < products.size(); i++) {
             System.out.println(products.get(i));
         }
@@ -36,7 +36,8 @@ public class StoreApp {
         for (int i = 1; i < 4; i++){// 3 is quantity of consumers
             ExecutorService executor = Executors.newSingleThreadExecutor();
             //5 is quantity of products, which buy one Consumer
-            Callable<List<Product>> createOrderTask = new CreateOrderTask(store, 5);
+            int randomInt = (int) (Math.random() * 30);
+            Callable<List<Product>> createOrderTask = new CreateOrderTask(store, randomInt);
             Future future = executor.submit(createOrderTask);
             try {
                 purcheses = (List<Product>)future.get(3, TimeUnit.SECONDS);
@@ -51,7 +52,6 @@ public class StoreApp {
         Runnable cleanUp = new CleanUpPurchases(purcheses);
         cleanBySchedule.scheduleAtFixedRate(cleanUp, 2, 2, TimeUnit.MINUTES);
         cleanBySchedule.shutdown();
-        //purcheses = ((CleanUpPurchases) cleanUp).getPurchases();
 
     }
 
