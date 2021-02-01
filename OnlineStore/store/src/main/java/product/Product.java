@@ -93,7 +93,7 @@ public class Product {
                 "name: " + name +
                 ", rating: " + rating +
                 ", price: " + price +
-                ", category: " + getCategory().getName1() +
+                ", category: " + getCategory().getName() +
                 ", quantity: " + quantity +
                 "}";
     }

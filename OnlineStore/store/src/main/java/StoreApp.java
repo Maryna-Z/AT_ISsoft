@@ -1,18 +1,36 @@
 import product.ChainComparator;
 import product.ListProductComparators;
 import product.Product;
-import utility.DOMExecuter;
-
-
-import java.net.URL;
+import utility.DBConnect;
 import java.util.*;
-import java.util.concurrent.*;
+
 
 public class StoreApp {
     public static void main(String[] args) {
-        /**/
+        Properties prop = DBConnect.prop;
+        prop.forEach((k, v) -> System.out.println(v.toString()));
+        String query = "SHOW TABLES";
+        String query2 = "SELECT * FROM category";
+        String query3 = "INSERT INTO category (categoryName) VALUES ('TT');";
+        DBConnect.execStatement(query3);
+        //DBConnect.loadCategories(query2);
 
-        Store store = new Store(3000);
+        /*try{
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/store?useUnicode=true&serverTimezone=UTC", "root", "11111Aa!");
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from category");
+
+            while (rs.next()){
+                System.out.println(rs.getInt(1) + " " + rs.getInt(2));
+            }
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+*/
+
+
+        /*Store store = new Store(3000);
         RandomStorePopulator populator = new RandomStorePopulator();
         List<Product> products = populator.populateStore(90);
         for (int i = 0; i < products.size(); i++) {
@@ -33,7 +51,10 @@ public class StoreApp {
 
         CreateThreadFunctionality threadFunctionality = new CreateThreadFunctionality(store);
         threadFunctionality.createOrders();
-        threadFunctionality.cleanBasket();
+        threadFunctionality.cleanBasket();*/
     }
+
+
+
 
 }

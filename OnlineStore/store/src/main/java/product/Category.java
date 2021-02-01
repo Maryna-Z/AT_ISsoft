@@ -5,7 +5,7 @@ public abstract class Category {
 
     public Category(){}
 
-    public String getName1() {
+    public String getName() {
         return categoryName;
     }
 
