@@ -1,19 +1,22 @@
-import product.ChainComparator;
-import product.ListProductComparators;
-import product.Product;
-import utility.DBConnect;
+import utility.DBActions;
+import utility.DatabaseConnection;
+
 import java.util.*;
 
 
 public class StoreApp {
     public static void main(String[] args) {
-        Properties prop = DBConnect.prop;
+        Properties prop = DatabaseConnection.prop;
         prop.forEach((k, v) -> System.out.println(v.toString()));
         String query = "SHOW TABLES";
         String query2 = "SELECT * FROM category";
         String query3 = "INSERT INTO category (categoryName) VALUES ('TT');";
-        DBConnect.execStatement(query3);
-        //DBConnect.loadCategories(query2);
+        String query4 = "INSERT INTO category (categoryName) VALUES ('BB');";
+        DBActions.execUpdatedStatement(query3);
+        DBActions.execStatement(query);
+        DBActions.closeConnection();
+        DBActions.loadCategories(query2);
+        DBActions.execUpdatedStatement(query4);
 
         /*try{
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/store?useUnicode=true&serverTimezone=UTC", "root", "11111Aa!");
