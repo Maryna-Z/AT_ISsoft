@@ -1,7 +1,11 @@
 import com.github.javafaker.Faker;
+import dao.builder.QueryBuilder;
+import dao.commonDAO.CommonDAO;
+import dao.commonDAO.products.CategoriesDAO;
 import org.reflections.Reflections;
 import product.Category;
 import product.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +19,16 @@ public class RandomStorePopulator {
     Faker faker = new Faker();
     int le = subClassesForCategory.size();
     Store store = new Store();
+
+    public List<Category> categories = new ArrayList<>();
+    CommonDAO actions = new CommonDAO();
+    CategoriesDAO categoriesDAO = new CategoriesDAO();
+
+
+    public List<Category> getAllCategoriesFromDB(){
+        categories = categoriesDAO.loadCategories(QueryBuilder.getAllCategories());
+        return categories;
+    }
 
 
     public List<String> getNameOfCategoryClasses(){
@@ -35,7 +49,7 @@ public class RandomStorePopulator {
             for (int i = 0; i < quantity; i++) {
                 int randomInt = (int) (Math.random() * le);
                 className = getNameOfCategoryClasses().get(randomInt);
-                productName = getProductNameByCategoryName(className);
+                productName = populateProductNameByCategoryName(className);
                 Product product = null;
                 try {
                     product = new Product.Builder()
@@ -55,14 +69,38 @@ public class RandomStorePopulator {
         return products;
     }
 
-    public String getProductNameByCategoryName(String categoryNameField){
-        String name = categoryNameField.trim().toLowerCase();
+    public List<Product> populateStoreFromDBCategory(int quantity){
+        List<Product> products = new ArrayList<>();
         String productName = "";
-        if (name.equals("categories.fruit")){
+        String categoryName = "";
+        Category category = null;
+        int categoriesLength = getAllCategoriesFromDB().size();
+        Product product = null;
+        for (int i = 0; i < quantity; i++) {
+            int randomInt = (int) (Math.random() * categoriesLength);
+            category = getAllCategoriesFromDB().get(randomInt);
+            categoryName = category.getName();
+            productName = populateProductNameByCategoryName(categoryName);
+            product = new Product.Builder()
+                    .withName(productName)
+                    .withCategory(category)
+                    .withPrice(Double.valueOf(faker.commerce().price()))
+                    .withQuantity(faker.number().numberBetween(0, 30))
+                    .withRating(faker.number().numberBetween(0, 11))
+                    .build();
+            products.add(product);
+        }
+        return products;
+    }
+
+    public String populateProductNameByCategoryName(String categoryName){
+        categoryName = categoryName.trim().toLowerCase();
+        String productName = "";
+        if (categoryName.equals("fruit")){
             productName = faker.food().fruit();
-        } else if (name.equals("categories.spice")){
+        } else if (categoryName.equals("spice")){
             productName = faker.food().spice();
-        } else if (name.equals("categories.vegetable")){
+        } else if (categoryName.equals("vegetable")){
             productName = faker.food().vegetable();
         }
         return productName;

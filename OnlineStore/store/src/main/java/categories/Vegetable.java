@@ -8,7 +8,4 @@ public class Vegetable extends Category {
     public Vegetable(){
         setName(BREAD_CATEGORY);
     }
-
-
-
 }

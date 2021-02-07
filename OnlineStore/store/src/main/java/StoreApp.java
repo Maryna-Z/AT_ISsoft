@@ -1,41 +1,34 @@
-import utility.DBActions;
-import utility.DatabaseConnection;
+import product.*;
+import utility.DOMExecuter;
 
+import java.net.URL;
 import java.util.*;
 
 
 public class StoreApp {
-    public static void main(String[] args) {
-        Properties prop = DatabaseConnection.prop;
+
+    public static void main(String[] args){
+        /*List<Category> categories = new ArrayList<>();
+        System.out.println(categories);
+        DBActions actions = new DBActions();*/
+
+        /*Properties prop = DatabaseConnection.prop;
         prop.forEach((k, v) -> System.out.println(v.toString()));
+        DBActions actions = new DBActions();
         String query = "SHOW TABLES";
         String query2 = "SELECT * FROM category";
         String query3 = "INSERT INTO category (categoryName) VALUES ('TT');";
         String query4 = "INSERT INTO category (categoryName) VALUES ('BB');";
-        DBActions.execUpdatedStatement(query3);
-        DBActions.execStatement(query);
-        DBActions.closeConnection();
-        DBActions.loadCategories(query2);
-        DBActions.execUpdatedStatement(query4);
+        String query5 = "DELETE FROM category WHERE categoryName = 'TT'";*/
+        //actions.execUpdatedStatement(query5);
 
-        /*try{
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/store?useUnicode=true&serverTimezone=UTC", "root", "11111Aa!");
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from category");
-
-            while (rs.next()){
-                System.out.println(rs.getInt(1) + " " + rs.getInt(2));
-            }
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-*/
+        //actions.loadCategories(QueryBuilder.getAllCategories());
 
 
-        /*Store store = new Store(3000);
+
+        Store store = new Store(3000);
         RandomStorePopulator populator = new RandomStorePopulator();
-        List<Product> products = populator.populateStore(90);
+        List<Product> products = populator.populateStoreFromDBCategory(90);
         for (int i = 0; i < products.size(); i++) {
             System.out.println(products.get(i));
         }
@@ -54,10 +47,7 @@ public class StoreApp {
 
         CreateThreadFunctionality threadFunctionality = new CreateThreadFunctionality(store);
         threadFunctionality.createOrders();
-        threadFunctionality.cleanBasket();*/
+        threadFunctionality.cleanBasket();
     }
-
-
-
 
 }

@@ -1,14 +1,13 @@
-package utility;
+package dao.DBConnection;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
 public class DatabaseConnection {
-    private volatile static DatabaseConnection uniqueInstance;
+    private static DatabaseConnection uniqueInstance;
     private Connection connection;
 
     private static String path = "c:/Users/user/Java/AT_ISsoft/AT_ISsoft/OnlineStore/store/src/main/resources/db.properties";
@@ -18,23 +17,18 @@ public class DatabaseConnection {
         try {
             this.connection = getDataSource(prop).getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Something wrong with data source", e);
         }
     };
 
-    public static DatabaseConnection getInstance(){
+    public static DatabaseConnection getInstance() throws SQLException {
         if (uniqueInstance == null) {
             uniqueInstance = new DatabaseConnection();
         } else {
-            try {
-                if (uniqueInstance.getConnection().isClosed()) {
-                    uniqueInstance = new DatabaseConnection();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            if (uniqueInstance.getConnection().isClosed()) {
+                uniqueInstance = new DatabaseConnection();
             }
         }
-
         return uniqueInstance;
     }
 
@@ -55,10 +49,10 @@ public class DatabaseConnection {
 
     private static Properties getProperties(String path){
         Properties prop = new Properties();
-        try(InputStream input = new FileInputStream(path)){
-            prop.load(input);
+        try {
+            prop.load(new FileInputStream(path));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error with get property");;
         }
         return prop;
     }
