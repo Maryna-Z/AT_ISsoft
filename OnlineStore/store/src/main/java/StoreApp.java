@@ -1,16 +1,17 @@
+import dao.builder.QueryBuilder;
+import dao.commonDAO.products.ProductsDAO;
 import product.*;
-import utility.DOMExecuter;
 
-import java.net.URL;
 import java.util.*;
 
 
 public class StoreApp {
 
     public static void main(String[] args){
-        /*List<Category> categories = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
         System.out.println(categories);
-        DBActions actions = new DBActions();*/
+        ProductsDAO productsDAO = new ProductsDAO();
+
 
         /*Properties prop = DatabaseConnection.prop;
         prop.forEach((k, v) -> System.out.println(v.toString()));
@@ -33,7 +34,9 @@ public class StoreApp {
             System.out.println(products.get(i));
         }
         store.setProducts(products);
+        productsDAO.insertProducts(QueryBuilder.insertProductQuery(), products);
 
+        /*
         URL resource = StoreApp.class.getResource("sort.xml");
         DOMExecuter executer = new DOMExecuter();
         Map<String, String> sortCondition = executer.XMLreader(resource.getPath());
@@ -47,7 +50,7 @@ public class StoreApp {
 
         CreateThreadFunctionality threadFunctionality = new CreateThreadFunctionality(store);
         threadFunctionality.createOrders();
-        threadFunctionality.cleanBasket();
+        threadFunctionality.cleanBasket();*/
     }
 
 }

@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class ListProductComparators {
     Map<String, String> sortConditions;
-    //private List<Comparator<Product>> comparatorList;
 
     public ListProductComparators(Map<String, String> sortConditions) {
         this.sortConditions = sortConditions;

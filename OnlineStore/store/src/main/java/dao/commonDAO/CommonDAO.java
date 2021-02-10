@@ -8,12 +8,17 @@ import java.sql.Statement;
 public class CommonDAO {
 
     public void closeDBResources(Connection connection, Statement statement, ResultSet resultSet){
-        closeConnection(connection);
-        closeStatement(statement);
         closeResultSet(resultSet);
+        closeStatement(statement);
+        closeConnection(connection);
     }
 
-    public void closeConnection(Connection connection){
+    public void closeDBResources(Connection connection, Statement statement){
+        closeStatement(statement);
+        closeConnection(connection);
+    }
+
+    private void closeConnection(Connection connection){
         if (connection != null){
             try {
                 connection.close();
@@ -23,7 +28,7 @@ public class CommonDAO {
         }
     }
 
-    public void closeStatement(Statement statement){
+    private void closeStatement(Statement statement){
         if (statement != null){
             try {
                 statement.close();
@@ -33,7 +38,7 @@ public class CommonDAO {
         }
     }
 
-    protected void closeResultSet(ResultSet resultSet){
+    private void closeResultSet(ResultSet resultSet){
         if (resultSet != null){
             try {
                 resultSet.close();

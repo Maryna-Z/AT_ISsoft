@@ -32,17 +32,6 @@ public class DatabaseConnection {
         return uniqueInstance;
     }
 
-    /*public static DatabaseConnection getInstance(){
-        if (uniqueInstance == null){
-            synchronized (DatabaseConnection.class){
-                if (uniqueInstance == null){
-                    uniqueInstance = new DatabaseConnection();
-                }
-            }
-        }
-        return uniqueInstance;
-    }*/
-
     public Connection getConnection(){
         return connection;
     }

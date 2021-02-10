@@ -4,11 +4,9 @@ import dao.DBConnection.DatabaseConnection;
 import dao.commonDAO.CommonDAO;
 import exceptions.DataException;
 import product.Category;
+import product.Product;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +28,35 @@ public class ProductsDAO {
         }catch (DataException dataException){
             throw new DataException("Error: The Update/delete/insert records error");
         }finally {
-            commonDAO.closeConnection(connection);
-            commonDAO.closeStatement(statement);
+            commonDAO.closeDBResources(connection, statement);
         }
     }
 
-    public List<Category> loadProducts(String query){
-        List<Category> categories = new ArrayList<>();
+    public void insertProducts(String query, List<Product> products){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DatabaseConnection.getInstance().getConnection();
+            statement = connection.prepareStatement(query);
+            int size = products.size();
+            for (int i = 0; i < size; i++){
+                statement.setString(1, products.get(i).getName());
+                statement.setInt(2, products.get(i).getRating());
+                statement.setDouble(3, products.get(i).getPrice());
+                statement.setInt(4, products.get(i).getCategoryID());
+                statement.setInt(5, products.get(i).getQuantity());
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        } catch (Exception e){
+            throw new DataException("Error: The insert products error");
+        }finally {
+            commonDAO.closeDBResources(connection, statement);
+        }
+    }
+
+    public List<Product> loadProducts(String query){
+        List<Product> products = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
         ResultSet rs = null;
@@ -45,7 +65,8 @@ public class ProductsDAO {
             statement = connection.createStatement();
             rs = statement.executeQuery(query);
             while (rs.next()){
-                categories.add(new Category(rs.getInt(1), rs.getString(2)));
+                products.add(new Product(rs.getString(2), rs.getInt(3),
+                        rs.getDouble(4), rs.getInt(5), rs.getInt(6)));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -54,7 +75,7 @@ public class ProductsDAO {
         }finally {
             commonDAO.closeDBResources(connection, statement,rs);
         }
-        return categories;
+        return products;
     }
 
 }

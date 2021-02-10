@@ -2,19 +2,29 @@ package product;
 import java.util.Objects;
 
 public class Product {
+    private int productID;
     private String name;
     private int rating;
     private double price;
-    private Category category;
+    private int categoryID;
     private int quantity;
 
     public  Product(){};
 
+    public Product(String name, int rating, double price, int categoryID, int quantity){
+        this.name = name;
+        this.rating = rating;
+        this.price = price;
+        this.categoryID = categoryID;
+        this.quantity = quantity;
+    }
+
     public Product(Product product) {
+        this.productID = product.productID;
         this.name = product.name;
         this.rating = product.rating;
         this.price = product.price;
-        this.category = product.category;
+        this.categoryID = product.categoryID;
         this.quantity = product.quantity;
     }
 
@@ -22,6 +32,11 @@ public class Product {
         private Product newProduct;
 
         public Builder() {newProduct = new Product();}
+
+        public Builder withProductID(int productID){
+            newProduct.productID = productID;
+            return this;
+        }
 
         public Builder withName(String name){
             newProduct.name = name;
@@ -38,8 +53,8 @@ public class Product {
             return this;
         }
 
-        public Builder withCategory(Category category){
-            newProduct.category = category;
+        public Builder withCategory(int categoryID){
+            newProduct.categoryID = categoryID;
             return this;
         }
 
@@ -63,8 +78,8 @@ public class Product {
         return price;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getCategoryID() {
+        return categoryID;
     }
 
     public int getQuantity() {
@@ -79,21 +94,22 @@ public class Product {
         return rating == product.rating &&
                 Double.compare(product.price, price) == 0 &&
                 Objects.equals(name, product.name) &&
-                Objects.equals(category, product.category);
+                categoryID == product.categoryID;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, rating, price, category);
+        return Objects.hash(name, rating, price, categoryID);
     }
 
     @Override
     public String toString() {
         return "product.Product{" +
-                "name: " + name +
+                "productID: " + productID +
+                ", name: " + name +
                 ", rating: " + rating +
                 ", price: " + price +
-                ", category: " + getCategory().getName() +
+                ", categoryID: " + getCategoryID() +
                 ", quantity: " + quantity +
                 "}";
     }

@@ -30,8 +30,7 @@ public class CategoriesDAO {
         }catch (DataException dataException){
             throw new DataException("Error: The Update/delete/insert records error");
         }finally {
-            commonDAO.closeConnection(connection);
-            commonDAO.closeStatement(statement);
+            commonDAO.closeDBResources(connection, statement);
         }
     }
 

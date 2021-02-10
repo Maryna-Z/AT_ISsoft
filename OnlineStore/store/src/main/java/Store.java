@@ -81,8 +81,8 @@ public class Store {
         return sortedList;
     }
 
-    public List<Product> getProductsByCategory(String categoryName){
-        List<Product> productsByCategory = products.stream().filter(p -> categoryName.equals(p.getCategory().getName()))
+    public List<Product> getProductsByCategoryID(int categoryID){
+        List<Product> productsByCategory = products.stream().filter(p -> categoryID == p.getCategoryID())
                 .collect(Collectors.toList());
         return productsByCategory;
     }
@@ -94,7 +94,7 @@ public class Store {
             while (products.size() > capacity)
                 condition.await();
             randomStorePopulator = new RandomStorePopulator();
-            products = randomStorePopulator.populateStore(quantity);
+            products = randomStorePopulator.populateStoreFromDBCategory(quantity);
             condition.signalAll();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -104,10 +104,6 @@ public class Store {
         return products;
     }
 
-    /*public void putProductsByCategoryName(String categoryName, int quantity){
-        randomStorePopulator.
-    }
-*/
     public List<Product> getProducts(int quantity){
         locker.lock();
         List<Product> purchasedProducts = new ArrayList<>();
