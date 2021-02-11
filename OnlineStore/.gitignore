@@ -9,3 +9,4 @@ target/
 *.iml
 *.iws
 **/db.properties
+**/db_scripts
