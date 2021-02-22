@@ -1,4 +1,4 @@
-package com.marina.dao.domain;
+package com.marina;
 import java.util.Objects;
 
 public class Product {
@@ -104,7 +104,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "com.marina.dao.domain.Product{" +
+        return "com.marina.Product{" +
                 "productID: " + productID +
                 ", name: " + name +
                 ", rating: " + rating +

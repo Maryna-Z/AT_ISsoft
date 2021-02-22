@@ -3,8 +3,6 @@ package com.marina;
 
 import com.marina.dao.builder.QueryBuilder;
 import com.marina.dao.commonDAO.products.ProductsDAO;
-import com.marina.dao.domain.Category;
-import com.marina.dao.domain.Product;
 
 import java.util.*;
 

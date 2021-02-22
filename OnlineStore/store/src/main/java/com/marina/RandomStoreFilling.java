@@ -3,8 +3,7 @@ package com.marina;
 import com.github.javafaker.Faker;
 import com.marina.dao.builder.QueryBuilder;
 import com.marina.dao.commonDAO.products.CategoriesDAO;
-import com.marina.dao.domain.Category;
-import com.marina.dao.domain.Product;
+
 
 import java.util.ArrayList;
 import java.util.List;

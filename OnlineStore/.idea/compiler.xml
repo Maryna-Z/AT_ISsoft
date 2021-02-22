@@ -8,12 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="consoleApp" />
         <module name="domain" />
+        <module name="reflection" />
         <module name="store" />
-        <module name="parent" />
+        <module name="dao" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="child-pr-module" target="1.5" />
+      <module name="parent" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

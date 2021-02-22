@@ -11,7 +11,7 @@ public class DatabaseConnection {
     private static DatabaseConnection uniqueInstance;
     private Connection connection;
 
-    private static String path = "c:/Users/user/Java/AT_ISsoft/AT_ISsoft/OnlineStore/domain/src/main/resources/db.properties";
+    private static String path = "c:/Users/user/Java/AT_ISsoft/AT_ISsoft/OnlineStore/dao/src/main/resources/db.properties";
     public static Properties prop = getProperties(path);
 
     private DatabaseConnection(){

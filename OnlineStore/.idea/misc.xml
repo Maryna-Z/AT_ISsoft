@@ -10,6 +10,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/child-pr-module/pom.xml" />
+        <option value="$PROJECT_DIR$/parent/pom.xml" />
       </set>
     </option>
   </component>

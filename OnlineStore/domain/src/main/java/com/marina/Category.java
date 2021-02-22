@@ -1,8 +1,8 @@
-package com.marina.dao.domain;
+package com.marina;
 
 public class Category {
     private int categoryID;
-    private String categoryName;
+    public String categoryName;
 
     public Category(){}
 
