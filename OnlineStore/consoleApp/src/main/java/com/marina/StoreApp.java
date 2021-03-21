@@ -1,42 +1,19 @@
 package com.marina;
 
+import com.marina.services.ProductPublisher;
+import com.marina.services.impl.Store;
 
-import com.marina.dao.builder.QueryBuilder;
-import com.marina.dao.commonDAO.products.ProductsDAO;
-
-import java.util.*;
+import java.util.List;
 
 
 public class StoreApp {
 
-    public static void main(String[] args){
-        List<Category> categories = new ArrayList<>();
-        System.out.println(categories);
-        ProductsDAO productsDAO = new ProductsDAO();
+    public static void main(String[] args) {
 
-
-        /*Properties prop = DatabaseConnection.prop;
-        prop.forEach((k, v) -> System.out.println(v.toString()));
-        DBActions actions = new DBActions();
-        String query = "SHOW TABLES";
-        String query2 = "SELECT * FROM category";
-        String query3 = "INSERT INTO category (categoryName) VALUES ('TT');";
-        String query4 = "INSERT INTO category (categoryName) VALUES ('BB');";
-        String query5 = "DELETE FROM category WHERE categoryName = 'TT'";*/
-        //actions.execUpdatedStatement(query5);
-
-        //actions.loadCategories(QueryBuilder.getAllCategories());
-
-
-
-        Store store = new Store(3000);
-        RandomStoreFilling populator = new RandomStoreFilling();
-        List<Product> products = populator.populateStoreFromDBCategory(90);
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println(products.get(i));
-        }
-        store.setProducts(products);
-        productsDAO.insertProducts(QueryBuilder.insertProductQuery(), products);
+        String publisherType = args[0];
+        ProductPublisher publisher = new Store().getPublisher(publisherType);
+        List<Product> products = publisher.getProducts();
+        System.out.println(products);
 
         /*
         URL resource = com.marina.StoreApp.class.getResource("sort.xml");
@@ -50,9 +27,10 @@ public class StoreApp {
             System.out.println(products.get(i));
         }
 
-        com.marina.CreateThreadFunctionality threadFunctionality = new com.marina.CreateThreadFunctionality(store);
+        com.marina.services.impl.CreateThreadFunctionality threadFunctionality = new com.marina.services.impl.CreateThreadFunctionality(store);
         threadFunctionality.createOrders();
         threadFunctionality.cleanBasket();*/
+
     }
 
 }

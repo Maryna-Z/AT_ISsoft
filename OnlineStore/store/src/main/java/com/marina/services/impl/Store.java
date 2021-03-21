@@ -1,4 +1,7 @@
-package com.marina;
+package com.marina.services.impl;
+import com.marina.Product;
+import com.marina.services.ProductPublisher;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -7,10 +10,12 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
-public class Store {
+import static com.marina.constants.Constants.DB_PUBLISHER_TYPE;
 
+@Data
+public class Store {
+    ProductPublisher productPublisher;
     List<Product> products;
-    RandomStoreFilling randomStoreFilling;
     ReentrantLock locker;
     Condition condition;
     int capacity;
@@ -31,18 +36,6 @@ public class Store {
         this.capacity = capacity;
         locker = new ReentrantLock();
         condition = locker.newCondition();
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setProducts(List<Product> products){
-        this.products = products;
     }
 
     public List<Product> newSortProduct(String fieldName, String sortOrder){
@@ -88,14 +81,14 @@ public class Store {
         return productsByCategory;
     }
 
-    /*while in store more then capacity products thread waits*/
+    /*while in store more then capacity products thread waits*//*
     public List<Product> putProducts(int quantity){
         locker.lock();
         try {
             while (products.size() > capacity)
                 condition.await();
             randomStoreFilling = new RandomStoreFilling();
-            products = randomStoreFilling.populateStoreFromDBCategory(quantity);
+            //products = randomStoreFilling.populateStoreFromDBCategory(quantity);
             condition.signalAll();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -103,7 +96,7 @@ public class Store {
             locker.unlock();
         }
         return products;
-    }
+    }*/
 
     public List<Product> getProducts(int quantity){
         locker.lock();
@@ -122,5 +115,12 @@ public class Store {
             locker.unlock();
         }
         return purchasedProducts;
+    }
+
+    public ProductPublisher getPublisher(String type){
+        if (DB_PUBLISHER_TYPE.equalsIgnoreCase(type)){
+            return new DBProductPublisher();
+        }
+        return new ReflectionPublisher();
     }
 }

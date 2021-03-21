@@ -5,6 +5,8 @@ public class QueryBuilder {
         return "SELECT * FROM category";
     }
 
+    public static String getAllProducts() { return "SELECT * FROM product"; }
+
     public static  String deleteAllCategories(){
         return "DELETE FROM category";
     }

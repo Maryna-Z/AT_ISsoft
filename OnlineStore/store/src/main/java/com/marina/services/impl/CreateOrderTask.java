@@ -1,4 +1,6 @@
-package com.marina;
+package com.marina.services.impl;
+
+import com.marina.Product;
 
 import java.util.List;
 import java.util.concurrent.Callable;

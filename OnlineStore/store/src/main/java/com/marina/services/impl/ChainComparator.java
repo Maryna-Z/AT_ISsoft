@@ -1,4 +1,6 @@
-package com.marina;
+package com.marina.services.impl;
+
+import com.marina.Product;
 
 import java.util.Comparator;
 import java.util.List;

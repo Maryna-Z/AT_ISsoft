@@ -1,7 +1,6 @@
-package com.marina.dao.commonDAO.products;
+package com.marina.dao.commonDAO;
 
 import com.marina.dao.DBConnection.DatabaseConnection;
-import com.marina.dao.commonDAO.CommonDAO;
 import com.marina.Category;
 import com.marina.dao.exceptions.DataException;
 
