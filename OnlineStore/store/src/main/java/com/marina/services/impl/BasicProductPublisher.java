@@ -35,12 +35,16 @@ public class BasicProductPublisher {
     private String populateProductNameByCategoryName(String categoryName) {
         categoryName = categoryName.trim().toLowerCase();
         String productName = "";
-        if (categoryName.equals("fruit")) {
-            productName = faker.food().fruit();
-        } else if (categoryName.equals("spice")) {
-            productName = faker.food().spice();
-        } else if (categoryName.equals("vegetable")) {
-            productName = faker.food().vegetable();
+        switch (categoryName){
+            case "fruit":
+                productName = faker.food().fruit();
+                break;
+            case "spice":
+                productName = faker.food().spice();
+                break;
+            case "vegetable":
+                productName = faker.food().vegetable();
+                break;
         }
         return productName;
     }
