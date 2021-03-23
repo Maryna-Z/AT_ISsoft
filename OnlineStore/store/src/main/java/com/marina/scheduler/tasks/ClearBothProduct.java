@@ -11,7 +11,6 @@ public class ClearBothProduct implements Runnable{
 
     @Override
     public void run() {
-      // bothProduct.clear();
-        System.out.println("test");
+      bothProduct.clear();
     }
 }
