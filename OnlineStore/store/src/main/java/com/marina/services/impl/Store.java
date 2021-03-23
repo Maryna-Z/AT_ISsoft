@@ -1,11 +1,15 @@
 package com.marina.services.impl;
-import com.marina.Product;
+import com.marina.entities.Product;
 import com.marina.services.ProductPublisher;
+import com.marina.utility.Utils;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -18,85 +22,18 @@ public class Store {
     List<Product> products;
     ReentrantLock locker;
     Condition condition;
-    int capacity;
+    List<Product> purchasesList;
 
     public  Store(){
         locker = new ReentrantLock();
         condition = locker.newCondition();
     }
 
-    public Store(ArrayList<Product> products, int capacity){
+    public Store(ArrayList<Product> products){
         this.products = products;
         locker = new ReentrantLock();
         condition = locker.newCondition();
-        this.capacity = capacity;
     }
-
-    public Store(int capacity) {
-        this.capacity = capacity;
-        locker = new ReentrantLock();
-        condition = locker.newCondition();
-    }
-
-    public List<Product> newSortProduct(String fieldName, String sortOrder){
-        List<Product> sortedList =  new ArrayList<>();
-        switch (fieldName.toLowerCase()) {
-            case "name":
-                if (sortOrder.toLowerCase().equals("asc")) {
-                    sortedList = products.stream().sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList());
-                } else if (sortOrder.toLowerCase().equals("desc")) {
-                    Comparator<Product> productNameComparatorDesc = Comparator.comparing(Product::getName, (s1, s2) -> {
-                        return s2.compareTo(s1);
-                    });
-                    sortedList = products.stream().sorted(productNameComparatorDesc).collect(Collectors.toList());
-                }
-                break;
-            case "price":
-                if (sortOrder.toLowerCase().equals("asc")) {
-                    sortedList = products.stream().sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toList());
-                } else if (sortOrder.toLowerCase().equals("desc")) {
-                    Comparator<Product> productPriceComparatorDesc = Comparator.comparing(Product::getPrice, (s1, s2) -> {
-                        return s2.compareTo(s1);
-                    });
-                    sortedList = products.stream().sorted(productPriceComparatorDesc).collect(Collectors.toList());
-                }
-                break;
-            case "rating":
-                if (sortOrder.toLowerCase().equals("asc")) {
-                    sortedList = products.stream().sorted(Comparator.comparing(Product::getRating)).collect(Collectors.toList());
-                } else if (sortOrder.toLowerCase().equals("desc")) {
-                    Comparator<Product> productRatingComparatorDesc = Comparator.comparing(Product::getRating, (s1, s2) -> {
-                        return s2.compareTo(s1);
-                    });
-                    sortedList = products.stream().sorted(productRatingComparatorDesc).collect(Collectors.toList());
-                }
-                break;
-        }
-        return sortedList;
-    }
-
-    public List<Product> getProductsByCategoryID(int categoryID){
-        List<Product> productsByCategory = products.stream().filter(p -> categoryID == p.getCategoryID())
-                .collect(Collectors.toList());
-        return productsByCategory;
-    }
-
-    /*while in store more then capacity products thread waits*//*
-    public List<Product> putProducts(int quantity){
-        locker.lock();
-        try {
-            while (products.size() > capacity)
-                condition.await();
-            randomStoreFilling = new RandomStoreFilling();
-            //products = randomStoreFilling.populateStoreFromDBCategory(quantity);
-            condition.signalAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            locker.unlock();
-        }
-        return products;
-    }*/
 
     public List<Product> getProducts(int quantity){
         locker.lock();
@@ -123,4 +60,35 @@ public class Store {
         }
         return new ReflectionPublisher();
     }
+
+    public synchronized void createOrder(List<Product> availableProducts,
+                                         List<Product> bothProduct,
+                                         int selectedProductId){
+        int processingTime = Utils.generateRandomValue(1, 30);
+        availableProducts.stream()
+                .filter(p -> (p.getProductID() == selectedProductId))
+                .findFirst()
+                .ifPresent(product -> new Thread(()->OrderProcessor.processOrder(
+                        product, availableProducts, bothProduct, processingTime
+                )).start());
+
+    }
+
+    public static class OrderProcessor{
+
+        public static void processOrder(Product product,
+                                        List<Product> availableProducts,
+                                        List<Product> bothProductList,
+                                        int processingTime){
+            try {
+                availableProducts.remove(product);
+                Thread.sleep(processingTime * 1000);
+                bothProductList.add(product);
+                availableProducts.add(product);
+            } catch (InterruptedException ex) {
+                System.out.println("Couldn't to seep thread");
+            }
+        }
+    }
+
 }

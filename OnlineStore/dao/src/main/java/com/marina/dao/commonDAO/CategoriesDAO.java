@@ -1,7 +1,7 @@
 package com.marina.dao.commonDAO;
 
 import com.marina.dao.DBConnection.DatabaseConnection;
-import com.marina.Category;
+import com.marina.entities.Category;
 import com.marina.dao.exceptions.DataException;
 
 import java.sql.Connection;

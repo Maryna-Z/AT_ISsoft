@@ -1,7 +1,7 @@
 package com.marina.services.impl;
 
-import com.marina.Category;
-import com.marina.Product;
+import com.marina.entities.Category;
+import com.marina.entities.Product;
 import com.marina.dao.builder.QueryBuilder;
 import com.marina.dao.commonDAO.CategoriesDAO;
 import com.marina.services.ProductPublisher;

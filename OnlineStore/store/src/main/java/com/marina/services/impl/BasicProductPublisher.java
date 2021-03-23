@@ -1,8 +1,8 @@
 package com.marina.services.impl;
 
 import com.github.javafaker.Faker;
-import com.marina.Category;
-import com.marina.Product;
+import com.marina.entities.Category;
+import com.marina.entities.Product;
 import com.marina.constants.Constants;
 import com.marina.dao.builder.QueryBuilder;
 import com.marina.dao.commonDAO.ProductsDAO;

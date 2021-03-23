@@ -1,6 +1,6 @@
 package com.marina.services.impl;
 
-import com.marina.Product;
+import com.marina.entities.Product;
 
 import java.util.List;
 import java.util.concurrent.locks.Condition;

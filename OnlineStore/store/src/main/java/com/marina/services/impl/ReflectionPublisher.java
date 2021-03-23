@@ -1,8 +1,7 @@
 package com.marina.services.impl;
 
-import com.github.javafaker.Faker;
-import com.marina.Category;
-import com.marina.Product;
+import com.marina.entities.Category;
+import com.marina.entities.Product;
 import com.marina.services.ProductPublisher;
 import org.reflections.Reflections;
 import java.util.ArrayList;

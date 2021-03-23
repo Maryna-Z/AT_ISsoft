@@ -1,4 +1,4 @@
-package com.marina;
+package com.marina.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
