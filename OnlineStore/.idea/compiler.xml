@@ -8,9 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="reflection" />
-        <module name="consoleApp" />
-        <module name="domain" />
         <module name="store" />
+        <module name="domain" />
+        <module name="consoleApp" />
         <module name="dao" />
       </profile>
     </annotationProcessing>
