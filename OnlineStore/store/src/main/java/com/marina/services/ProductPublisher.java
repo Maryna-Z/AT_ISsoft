@@ -1,9 +1,9 @@
 package com.marina.services;
 
-import com.marina.entities.Product;
+import com.marina.domain.CategoryObj;
 
 import java.util.List;
 
-public interface ProductPublisher {
-    public List<Product> getProducts();
+public interface ProductPublisher{
+    public List<CategoryObj> getCategories();
 }
