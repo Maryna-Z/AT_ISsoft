@@ -1,6 +1,6 @@
 package com.marina.services.impl;
 
-import com.marina.entities.Product;
+import com.marina.domain.ProductObj;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,17 +14,18 @@ public class ListProductComparators {
         this.sortConditions = sortConditions;
     }
 
-    public List<Comparator<Product>> getComparatorList(Map<String, String> sortConditions) {
-        List<Comparator<Product>> comparatorList = new ArrayList<>();
+    public List<Comparator<ProductObj>> getComparatorList(Map<String, String> sortConditions) {
+        List<Comparator<ProductObj>> comparatorList = new ArrayList<>();
         for (Map.Entry<String, String> item : sortConditions.entrySet()) {
             String key = item.getKey().trim().toLowerCase();
             String value = item.getValue().trim().toLowerCase();
             switch (key) {
                 case "name":
                     if (value.equals("asc")) {
-                        comparatorList.add(Comparator.comparing(Product::getName));
+                        comparatorList.add(Comparator.comparing(ProductObj::getName));
                     } else if (value.equals("desc")) {
-                        Comparator<Product> productNameComparatorDesc = Comparator.comparing(Product::getName, (s1, s2) -> {
+                        Comparator<ProductObj> productNameComparatorDesc = Comparator
+                                .comparing(ProductObj::getName, (s1, s2) -> {
                             return s2.compareTo(s1);
                         });
                         comparatorList.add(productNameComparatorDesc);
@@ -32,18 +33,20 @@ public class ListProductComparators {
                     break;
                 case "price":
                     if (value.equals("asc")) {
-                        comparatorList.add(Comparator.comparing(Product::getPrice));
+                        comparatorList.add(Comparator.comparing(ProductObj::getPrice));
                     } else if (value.equals("desc")) {
-                        Comparator<Product> productPriceComparatorDesc = Comparator.comparing(Product::getPrice, (s1, s2) -> {
+                        Comparator<ProductObj> productPriceComparatorDesc = Comparator
+                                .comparing(ProductObj::getPrice, (s1, s2) -> {
                             return s2.compareTo(s1);
                         });
                         comparatorList.add(productPriceComparatorDesc);
                     }
                 case "rating":
                     if (value.equals("asc")) {
-                        comparatorList.add(Comparator.comparing(Product::getRating));
+                        comparatorList.add(Comparator.comparing(ProductObj::getRating));
                     } else if (value.equals("desc")) {
-                        Comparator<Product> productRatingComparatorDesc = Comparator.comparing(Product::getRating, (s1, s2) -> {
+                        Comparator<ProductObj> productRatingComparatorDesc = Comparator
+                                .comparing(ProductObj::getRating, (s1, s2) -> {
                             return s2.compareTo(s1);
                         });
                         comparatorList.add(productRatingComparatorDesc);
