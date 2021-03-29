@@ -1,0 +1,12 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.
+# Maven
+log/
+target/
+# Intellij
+.idea/
+*.iml
+*.iws
+**/db.properties
+**/db_scripts
