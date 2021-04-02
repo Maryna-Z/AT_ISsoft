@@ -1,13 +1,14 @@
 package com.marina;
 
+import com.marina.constants.Constants;
 import com.marina.domain.CategoryObj;
 import com.marina.domain.ProductObj;
+import com.marina.services.http.Server;
 import com.marina.services.impl.ChainComparator;
 import com.marina.services.impl.ListProductComparators;
 import com.marina.services.impl.OrderBuilder;
 import com.marina.services.impl.Store;
 import com.marina.utility.DOMExecuter;
-import com.marina.utility.Utils;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -18,20 +19,12 @@ import java.util.stream.Collectors;
 public class StoreApp {
 
     public static void main(String[] args) {
-
         String publisherType = args[0];
-        Store store = new Store(publisherType);
-
-        OrderBuilder orderBuilder = new OrderBuilder(store.getCategoryObjList());
+        Store store = Store.getInstance(publisherType);
+        OrderBuilder.getInstance(store.getCategoryObjList()).clearPerchesProduct();
+        new Server().createServer(Constants.CARTS_CONTEXT_URL);
 
         compareProducts(store.getCategoryObjList());
-
-        int selectedProductId1 = Utils.getIntFromConsole(System.in);
-        orderBuilder.createOrder(selectedProductId1);
-        int selectedProductId2 = Utils.getIntFromConsole(System.in);
-        orderBuilder.createOrder(selectedProductId2);
-        orderBuilder.clearPerchesProduct();
-
     }
 
     public static Map<String, String> retrieveSortCondition() {

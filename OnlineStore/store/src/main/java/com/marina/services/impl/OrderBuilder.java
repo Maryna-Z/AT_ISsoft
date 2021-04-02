@@ -4,6 +4,7 @@ import com.marina.domain.CategoryObj;
 import com.marina.domain.ProductObj;
 import com.marina.scheduler.tasks.ClearBothProduct;
 import com.marina.utility.Utils;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +15,24 @@ import java.util.stream.Collectors;
 
 import static com.marina.constants.Constants.CLEAR_BOTH_PRODUCT_TIME;
 
+@Data
 public class OrderBuilder {
+    private static OrderBuilder instance;
     private List<ProductObj> availableProducts;
     private List<ProductObj> perchesProduct = new ArrayList<>();
 
-    public OrderBuilder(List<CategoryObj> categories){
+    private OrderBuilder(List<CategoryObj> categories){
         this.availableProducts = categories.stream()
                 .map(categoryObj -> categoryObj.getProductObjList())
                 .flatMap(productObjs -> productObjs.stream())
                 .collect(Collectors.toList());
+    }
+
+    public synchronized static OrderBuilder getInstance(List<CategoryObj> categories){
+        if (instance == null){
+            instance = new OrderBuilder(categories);
+        }
+        return instance;
     }
 
     public synchronized void createOrder(Integer productId){
