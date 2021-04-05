@@ -22,7 +22,7 @@ public class StoreApp {
         String publisherType = args[0];
         Store store = Store.getInstance(publisherType);
         OrderBuilder.getInstance(store.getCategoryObjList()).clearPerchesProduct();
-        new Server().createServer(Constants.CARTS_CONTEXT_URL);
+        new Server().createServer();
 
         compareProducts(store.getCategoryObjList());
     }

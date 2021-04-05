@@ -6,21 +6,21 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.net.InetSocketAddress;
 
+import static com.marina.constants.Constants.CARTS_CONTEXT_URL;
+import static com.marina.constants.Constants.CATEGORIES_CONTEXT_URL;
+
 public class Server {
 
-    public void createServer(String context) {
+    public void createServer() {
 
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(8001), 0);
 
-            switch (context) {
-                case Constants.CATEGORIES_CONTEXT_URL:
-                    server.createContext(context, new CategoriesHandler()).setAuthenticator(new Auth());
-                    break;
-                case Constants.CARTS_CONTEXT_URL:
-                    server.createContext(context, new ProductCartHandler()).setAuthenticator(new Auth());
-                    break;
-            }
+            server.createContext(CATEGORIES_CONTEXT_URL, new CategoriesHandler())
+                    .setAuthenticator(new Auth());
+
+            server.createContext(CARTS_CONTEXT_URL, new ProductCartHandler())
+                    .setAuthenticator(new Auth());
 
             server.setExecutor(null);
             server.start();
