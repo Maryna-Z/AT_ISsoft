@@ -15,10 +15,10 @@ public class Server {
 
             switch (context) {
                 case Constants.CATEGORIES_CONTEXT_URL:
-                    server.createContext(context, new CategoriesHandler());
+                    server.createContext(context, new CategoriesHandler()).setAuthenticator(new Auth());
                     break;
                 case Constants.CARTS_CONTEXT_URL:
-                    server.createContext(context, new ProductCartHandler());
+                    server.createContext(context, new ProductCartHandler()).setAuthenticator(new Auth());
                     break;
             }
 
