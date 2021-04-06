@@ -3,8 +3,7 @@ package com.marina.services.impl;
 import com.marina.constants.Constants;
 import com.marina.domain.CategoryObj;
 import com.marina.domain.ProductObj;
-import com.marina.entities.Category;
-import com.marina.exception.CategoryInitializationException;
+import com.marina.exception.CommonException;
 import com.marina.services.ProductPublisher;
 import org.reflections.Reflections;
 
@@ -51,7 +50,7 @@ public class ReflectionPublisher extends BasicProductPublisher implements Produc
             try {
                 categoryObj = (CategoryObj)Class.forName(clazz.getName()).newInstance();
             } catch (Exception ex) {
-                throw new CategoryInitializationException("Error to execute getCategoriesViaReflection method", ex);
+                throw new CommonException("Error to execute getCategoriesViaReflection method", ex);
             }
             categories.add(categoryObj);
         }
